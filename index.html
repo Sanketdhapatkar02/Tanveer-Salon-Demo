@@ -4,20 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tanveer Salon | Premium Unisex Salon in Thane</title>
-    
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-
     <style>
+        /* =========================== CSS CUSTOM PROPERTIES =========================== */
         :root {
             --cream: #f9f5ef;
             --ivory: #f2ebe0;
             --sand: #e0d4c0;
             --bronze: #b8965a;
-            --bronze-dk: #8f6f3a;
+            --bronze-dk:#8f6f3a;
             --charcoal: #2a2420;
-            --warm-gray: #7a6f65;
+            --warm-gray:#7a6f65;
             --white: #ffffff;
             --black: #16110d;
             --ff-serif: 'Cormorant Garamond', Georgia, serif;
@@ -26,353 +25,114 @@
             --nav-h: 72px;
         }
 
-        /* Reset & Base */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body { font-family: var(--ff-sans); background: var(--cream); color: var(--charcoal); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        img { display: block; max-width: 100%; }
+        a { color: inherit; text-decoration: none; }
+        ul { list-style: none; }
+        button { cursor: pointer; border: none; background: none; font: inherit; }
 
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
-        }
+        .container { width: 92%; max-width: 1160px; margin-inline: auto; }
+        .section-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--bronze); display: block; margin-bottom: 1rem; }
+        .section-title { font-family: var(--ff-serif); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 300; line-height: 1.15; color: var(--charcoal); }
 
-        body {
-            font-family: var(--ff-sans);
-            background: var(--cream);
-            color: var(--charcoal);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; transition: all 0.35s var(--ease-out-expo); }
+        .btn-primary { background: var(--bronze); color: var(--white); }
+        .btn-primary:hover { background: var(--bronze-dk); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(184,150,90,0.35); }
+        .btn-outline { border: 1px solid var(--bronze); color: var(--bronze); }
+        .btn-outline:hover { background: var(--bronze); color: var(--white); }
 
-        img {
-            display: block;
-            max-width: 100%;
-        }
+        /* Scroll Reveal */
+        .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.1s; } .reveal-delay-2 { transition-delay: 0.2s; } .reveal-delay-3 { transition-delay: 0.3s; }
 
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
+        /* NAVBAR */
+        #navbar { position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h); z-index: 1000; transition: background 0.45s ease; }
+        #navbar.scrolled { background: rgba(249,245,239,0.93); backdrop-filter: blur(18px); box-shadow: 0 1px 0 rgba(42,36,32,0.1); }
+        .nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { font-family: var(--ff-serif); font-size: 1.5rem; color: var(--charcoal); }
+        .nav-logo span { color: var(--bronze); }
+        .nav-links { display: flex; align-items: center; gap: 2.2rem; }
+        .nav-links a { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; }
 
-        ul {
-            list-style: none;
-        }
+        .hamburger { display: none; flex-direction: column; gap: 5px; z-index: 1100; }
+        .hamburger span { display: block; width: 24px; height: 1.5px; background: var(--charcoal); transition: all 0.3s; }
+        .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4.5px, 4.5px); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(4.5px, -4.5px); }
 
-        button {
-            cursor: pointer;
-            border: none;
-            background: none;
-            font: inherit;
-        }
+        .mobile-menu { position: fixed; inset: 0; background: var(--cream); z-index: 1050; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem; opacity: 0; pointer-events: none; transition: opacity 0.4s; }
+        .mobile-menu.open { opacity: 1; pointer-events: all; }
+        .mobile-menu a { font-family: var(--ff-serif); font-size: 2.2rem; }
 
-        .container {
-            width: 92%;
-            max-width: 1160px;
-            margin-inline: auto;
-        }
+        /* HERO */
+        #hero { min-height: 100svh; position: relative; display: grid; place-items: center; background: var(--cream); text-align: center; }
+        .hero-title { font-family: var(--ff-serif); font-size: clamp(3.5rem, 11vw, 8rem); line-height: 0.93; margin-bottom: 1.6rem; }
+        .hero-title em { font-style: italic; color: var(--bronze); }
 
-        /* UI Elements */
-        .section-label {
-            font-size: 0.7rem;
-            font-weight: 500;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--bronze);
-            display: block;
-            margin-bottom: 1rem;
-        }
+        /* TICKER */
+        .ticker-wrap { background: var(--bronze); overflow: hidden; padding: 0.65rem 0; }
+        .ticker-track { display: flex; gap: 4rem; width: max-content; animation: ticker 30s linear infinite; }
+        .ticker-item { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white); }
+        @keyframes ticker { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
 
-        .section-title {
-            font-family: var(--ff-serif);
-            font-size: clamp(2.2rem, 5vw, 3.5rem);
-            font-weight: 300;
-            line-height: 1.15;
-            color: var(--charcoal);
-        }
+        /* ABOUT */
+        #about { padding: 8rem 0; }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+        .about-img-main { aspect-ratio:3/4; object-fit:cover; }
+        .about-badge { position:absolute; top:1.5rem; left:-1.5rem; background:var(--bronze); color:var(--white); width:88px; height:88px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
 
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.85rem 2rem;
-            font-size: 0.8rem;
-            font-weight: 500;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            transition: all 0.35s var(--ease-out-expo);
-        }
+        /* SERVICES */
+        #services { background:var(--charcoal); padding:8rem 0; color: white; }
+        .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5px; }
+        .service-card { background:rgba(255,255,255,0.04); padding:2.2rem; }
+        .service-name { font-family:var(--ff-serif); font-size:1.4rem; color:var(--ivory); margin-bottom:0.8rem; }
+        .service-item { display:flex; justify-content:space-between; font-size:0.8rem; border-bottom:1px solid rgba(255,255,255,0.06); padding: 0.6rem 0; }
 
-        .btn-primary {
-            background: var(--bronze);
-            color: var(--white);
-        }
+        /* GALLERY */
+        #gallery { padding:8rem 0; }
+        .gallery-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+        .gallery-item { overflow:hidden; cursor:pointer; position:relative; aspect-ratio: 1; }
+        .gallery-item:nth-child(1) { grid-column:span 2; grid-row:span 2; }
+        .gallery-img { width:100%; height:100%; object-fit:cover; transition:transform 0.7s; }
+        .gallery-item:hover .gallery-img { transform:scale(1.06); }
+        .gallery-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; opacity:0; transition:0.3s; color:white; }
+        .gallery-item:hover .gallery-overlay { opacity:1; }
 
-        .btn-primary:hover {
-            background: var(--bronze-dk);
-            transform: translateY(-2px);
-        }
+        /* TESTIMONIALS */
+        #testimonials { background:var(--ivory); padding:8rem 0; }
+        .testimonials-track { display:grid; grid-template-columns:repeat(3,1fr); gap:1.8rem; }
+        .testimonial-card { background:var(--white); padding:2.2rem; }
+        .testimonial-quote { font-family:var(--ff-serif); font-size:4rem; color:var(--bronze); opacity:0.3; line-height: 0; }
+        .testimonial-text { font-style: italic; margin-bottom: 1.5rem; line-height: 1.6; }
 
-        .btn-outline {
-            border: 1px solid var(--bronze);
-            color: var(--bronze);
-        }
+        /* CONTACT */
+        #contact { padding:8rem 0; }
+        .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:5rem; }
+        .contact-item { display:flex; gap:1rem; margin-bottom: 1.8rem; }
+        .contact-icon { width:44px; height:44px; background:var(--ivory); border:1px solid var(--sand); display:flex; align-items:center; justify-content:center; color:var(--bronze); flex-shrink:0; }
+        .map-container { width:100%; height:420px; border:1px solid var(--sand); }
+        .map-container iframe { width:100%; height:100%; border:none; }
 
-        /* Animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
-        }
+        /* MODAL */
+        .modal { position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,0.95); display:none; align-items:center; justify-content:center; padding:2rem; }
+        .modal.open { display:flex; }
+        .modal-img { max-width:90%; max-height:80vh; object-fit:contain; }
+        .modal-close { position:absolute; top:2rem; right:2rem; color:white; font-size:2rem; cursor:pointer; }
+        .modal-nav { position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; padding:0 2rem; color:white; font-size:3rem; pointer-events:none; }
+        .modal-nav span { cursor:pointer; pointer-events:auto; }
 
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Navigation */
-        #navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: var(--nav-h);
-            z-index: 1000;
-            transition: background 0.4s ease;
-        }
-
-        #navbar.scrolled {
-            background: rgba(249, 245, 239, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 1px 10px rgba(0,0,0,0.05);
-        }
-
-        .nav-inner {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .nav-logo {
-            font-family: var(--ff-serif);
-            font-size: 1.6rem;
-            letter-spacing: 0.05em;
-        }
-
-        .nav-logo span {
-            color: var(--bronze);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            font-size: 0.75rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .hamburger span {
-            width: 25px;
-            height: 2px;
-            background: var(--charcoal);
-            transition: 0.3s;
-        }
-
-        /* Hero Section */
-        #hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: var(--cream);
-            padding-top: var(--nav-h);
-        }
-
-        .hero-title {
-            font-family: var(--ff-serif);
-            font-size: clamp(3.5rem, 12vw, 8rem);
-            line-height: 0.9;
-            margin-bottom: 2rem;
-        }
-
-        .hero-title em {
-            color: var(--bronze);
-            font-style: italic;
-        }
-
-        /* Ticker */
-        .ticker-wrap {
-            background: var(--bronze);
-            padding: 0.8rem 0;
-            overflow: hidden;
-        }
-
-        .ticker-track {
-            display: flex;
-            gap: 5rem;
-            width: max-content;
-            animation: ticker 40s linear infinite;
-        }
-
-        .ticker-item {
-            color: white;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 0.2em;
-            white-space: nowrap;
-        }
-
-        @keyframes ticker {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* About Section */
-        #about { padding: 100px 0; }
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        /* Services Section */
-        #services {
-            background: var(--charcoal);
-            color: white;
-            padding: 100px 0;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 3rem;
-        }
-
-        .service-card {
-            background: rgba(255,255,255,0.05);
-            padding: 2rem;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .service-item {
-            display: flex;
-            justify-content: space-between;
-            margin: 10px 0;
-            font-size: 0.9rem;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: 5px;
-        }
-
-        /* Gallery Grid */
-        #gallery { padding: 100px 0; }
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-top: 3rem;
-        }
-
-        .gallery-item {
-            position: relative;
-            aspect-ratio: 1;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .gallery-item:nth-child(1) {
-            grid-column: span 2;
-            grid-row: span 2;
-        }
-
-        .gallery-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: 0.6s;
-        }
-
-        .gallery-item:hover .gallery-img {
-            transform: scale(1.1);
-        }
-
-        /* Modal Viewer */
-        .modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.9);
-            z-index: 2000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.open { display: flex; }
-        .modal-img { max-width: 90%; max-height: 80vh; }
-        .modal-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 30px; cursor: pointer; }
-
-        /* Testimonials */
-        #testimonials { background: var(--ivory); padding: 100px 0; }
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .testi-card {
-            background: white;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-        }
-
-        /* Contact Section */
-        #contact { padding: 100px 0; }
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-        }
-
-        .map-box { height: 400px; width: 100%; background: #eee; }
-
-        footer {
-            background: var(--black);
-            color: rgba(255,255,255,0.6);
-            padding: 50px 0;
-            text-align: center;
-            font-size: 0.8rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 992px) {
-            .about-grid, .services-grid, .testimonials-grid, .contact-grid {
-                grid-template-columns: 1fr;
-            }
-            .nav-links { display: none; }
-            .hamburger { display: flex; }
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-        }
+        footer { background:var(--black); padding:4rem 0 2rem; color: rgba(255,255,255,0.4); }
+        @media(max-width:1024px){ .about-grid, .services-grid, .testimonials-track, .contact-grid { grid-template-columns:1fr; } .nav-links{ display:none; } .hamburger{ display:flex; } }
     </style>
 </head>
-
 <body>
 
     <nav id="navbar">
         <div class="container nav-inner">
-            <a href="#" class="nav-logo">Tanveer <span>Salon</span></a>
+            <a href="#hero" class="nav-logo">Tanveer <span>Salon</span></a>
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
                 <li><a href="#services">Services</a></li>
@@ -380,78 +140,71 @@
                 <li><a href="#testimonials">Reviews</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <a href="tel:+919555364454" class="btn btn-primary">Book Now</a>
-            <div class="hamburger" id="menuToggle">
-                <span></span><span></span><span></span>
-            </div>
+            <a href="tel:+919555364454" class="btn btn-primary nav-cta">Book Now</a>
+            <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
         </div>
     </nav>
 
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#about" class="mobile-link">About</a>
+        <a href="#services" class="mobile-link">Services</a>
+        <a href="#gallery" class="mobile-link">Gallery</a>
+        <a href="#testimonials" class="mobile-link">Reviews</a>
+        <a href="#contact" class="mobile-link">Contact</a>
+    </div>
+
     <section id="hero">
         <div class="hero-content">
-            <span class="section-label reveal">Premium Unisex Salon</span>
+            <span class="section-label reveal">Unisex Family Salon · Thane West</span>
             <h1 class="hero-title reveal">Tanveer<br><em>Salon</em></h1>
-            <p class="reveal">Expert hair styling and skin care in the heart of Thane West.</p>
-            <div class="hero-actions reveal" style="margin-top: 2rem;">
-                <a href="tel:+919555364454" class="btn btn-primary">Call Now</a>
-                <a href="#services" class="btn btn-outline" style="margin-left: 10px;">Services</a>
+            <p class="reveal">Premium hair, skin & bridal services crafted with care for your entire family.</p>
+            <div class="hero-actions reveal" style="margin-top:2rem">
+                <a href="tel:+919555364454" class="btn btn-primary">Book Appointment</a>
+                <a href="#services" class="btn btn-outline">Our Services</a>
             </div>
         </div>
     </section>
 
     <div class="ticker-wrap">
         <div class="ticker-track">
-            <span class="ticker-item">Haircuts</span>
-            <span class="ticker-item">Keratin</span>
-            <span class="ticker-item">Facials</span>
-            <span class="ticker-item">Bridal Makeup</span>
-            <span class="ticker-item">Hair Spa</span>
-            <span class="ticker-item">Nanoplasty</span>
-            <span class="ticker-item">Haircuts</span>
-            <span class="ticker-item">Keratin</span>
-            <span class="ticker-item">Facials</span>
-            <span class="ticker-item">Bridal Makeup</span>
+            <span class="ticker-item">Hair Styling</span><span class="ticker-item">Keratin Care</span><span class="ticker-item">Bridal Specials</span><span class="ticker-item">Skin Rejuvenation</span><span class="ticker-item">Hair Spa</span><span class="ticker-item">Hair Styling</span>
         </div>
     </div>
 
     <section id="about">
         <div class="container about-grid">
-            <div class="reveal">
-                <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80" alt="Salon Interior" />
+            <div class="reveal" style="position:relative">
+                <img class="about-img-main" src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800" alt="Interior" />
+                <div class="about-badge"><strong>5+</strong><span>Years</span></div>
             </div>
             <div class="about-text">
                 <span class="section-label reveal">Our Story</span>
-                <h2 class="section-title reveal">Excellence in Every Cut</h2>
-                <p class="reveal" style="margin: 1.5rem 0;">Tanveer Salon is a premier destination at Lodha Amara, Thane, dedicated to providing high-quality grooming and beauty services in a luxurious environment.</p>
-                <div class="reveal">
-                    <a href="tel:+919555364454" class="btn btn-outline">Connect with Us</a>
-                </div>
+                <h2 class="section-title reveal">A Sanctuary of Beauty</h2>
+                <p class="reveal" style="margin-top:1.5rem">Located at Lodha Amara, Tanveer Salon delivers premium grooming in a hygienic, welcoming environment. Every visit is designed to leave you feeling your most beautiful self.</p>
             </div>
         </div>
     </section>
 
     <section id="services">
         <div class="container">
-            <span class="section-label reveal" style="color: var(--bronze);">Our Menu</span>
-            <h2 class="section-title reveal" style="color: white;">Curated Services</h2>
-            
+            <h2 class="section-title reveal" style="color:white; margin-bottom:3rem">Signature Services</h2>
             <div class="services-grid">
                 <div class="service-card reveal">
-                    <h3>Hair Care</h3>
-                    <div class="service-item"><span>Classic Haircut</span><span>₹300+</span></div>
-                    <div class="service-item"><span>Styling</span><span>₹400+</span></div>
+                    <h3 class="service-name">Hair Care</h3>
+                    <div class="service-item"><span>Haircut</span><span>₹300+</span></div>
                     <div class="service-item"><span>Hair Spa</span><span>₹800+</span></div>
+                    <div class="service-item"><span>Styling</span><span>₹400+</span></div>
                 </div>
                 <div class="service-card reveal">
-                    <h3>Chemicals</h3>
+                    <h3 class="service-name">Treatments</h3>
                     <div class="service-item"><span>Keratin</span><span>₹3500+</span></div>
                     <div class="service-item"><span>Global Color</span><span>₹2000+</span></div>
-                    <div class="service-item"><span>Botox</span><span>₹4500+</span></div>
+                    <div class="service-item"><span>Nanoplasty</span><span>₹5000+</span></div>
                 </div>
                 <div class="service-card reveal">
-                    <h3>Skin Care</h3>
+                    <h3 class="service-name">Skin</h3>
                     <div class="service-item"><span>Hydra Facial</span><span>₹2500+</span></div>
-                    <div class="service-item"><span>D-Tan</span><span>₹500+</span></div>
+                    <div class="service-item"><span>Clean Up</span><span>₹500+</span></div>
                     <div class="service-item"><span>Bridal Makeup</span><span>Contact</span></div>
                 </div>
             </div>
@@ -460,104 +213,99 @@
 
     <section id="gallery">
         <div class="container">
-            <span class="section-label reveal">Our Work</span>
-            <h2 class="section-title reveal">Gallery</h2>
+            <h2 class="section-title reveal" style="margin-bottom:3rem">Behind the Chair</h2>
             <div class="gallery-grid">
-                <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800" class="gallery-img" /></div>
-                <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=500" class="gallery-img" /></div>
-                <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=500" class="gallery-img" /></div>
-                <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800" class="gallery-img" /></div>
+                <div class="gallery-item reveal"><img class="gallery-img" src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800"/><div class="gallery-overlay">View</div></div>
+                <div class="gallery-item reveal"><img class="gallery-img" src="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=500"/><div class="gallery-overlay">View</div></div>
+                <div class="gallery-item reveal"><img class="gallery-img" src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=500"/><div class="gallery-overlay">View</div></div>
+                <div class="gallery-item reveal"><img class="gallery-img" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800"/><div class="gallery-overlay">View</div></div>
             </div>
         </div>
     </section>
 
+    <div class="modal" id="galleryModal">
+        <span class="modal-close" id="modalClose">✕</span>
+        <div class="modal-nav"><span id="prevBtn">‹</span><span id="nextBtn">›</span></div>
+        <img class="modal-img" id="modalImg" src="" />
+    </div>
+
     <section id="testimonials">
         <div class="container">
-            <span class="section-label reveal">Feedback</span>
-            <h2 class="section-title reveal">Client Reviews</h2>
-            <div class="testimonials-grid" style="margin-top: 3rem;">
-                <div class="testi-card reveal">
-                    <p>"Amazing experience at Tanveer Salon! Best hair treatment in Thane."</p>
-                    <p style="margin-top: 1rem; font-weight: 500;">- Rahul S.</p>
+            <h2 class="section-title reveal" style="margin-bottom:4rem">Client Love</h2>
+            <div class="testimonials-track">
+                <div class="testimonial-card reveal">
+                    <span class="testimonial-quote">"</span>
+                    <p class="testimonial-text">Best hair experience in Thane! The staff is incredibly professional and the results are amazing.</p>
+                    <p><strong>- Rahul Sharma</strong></p>
                 </div>
-                <div class="testi-card reveal">
-                    <p>"Very professional staff and top-notch hygiene. Highly recommended."</p>
-                    <p style="margin-top: 1rem; font-weight: 500;">- Priya V.</p>
+                <div class="testimonial-card reveal">
+                    <span class="testimonial-quote">"</span>
+                    <p class="testimonial-text">Love the hygiene and the expertise here. My go-to place for all grooming needs.</p>
+                    <p><strong>- Priya Verma</strong></p>
                 </div>
-                <div class="testi-card reveal">
-                    <p>"Love my new look! They really understand what the customer wants."</p>
-                    <p style="margin-top: 1rem; font-weight: 500;">- Amit K.</p>
+                <div class="testimonial-card reveal">
+                    <span class="testimonial-quote">"</span>
+                    <p class="testimonial-text">Top-notch service at Lodha Amara. The facials are extremely relaxing and effective.</p>
+                    <p><strong>- Amit K.</strong></p>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="contact">
-        <div class="container">
-            <div class="contact-grid">
-                <div class="reveal">
-                    <span class="section-label">Find Us</span>
-                    <h2 class="section-title">Get in Touch</h2>
-                    <p style="margin: 1.5rem 0;">
-                        Shop No. 20, Lodha Amara, Signet A,<br>
-                        Kolshet Rd, Thane West, MH 400607
-                    </p>
-                    <p><strong>Call:</strong> <a href="tel:+919555364454">+91 95553 64454</a></p>
+        <div class="container contact-grid">
+            <div class="contact-info">
+                <h2 class="section-title reveal">Visit Us</h2>
+                <div style="margin-top:2rem">
+                    <div class="contact-item reveal">
+                        <div class="contact-icon">📍</div>
+                        <div><strong>Address</strong><br>Shop No, 20, Ground floor, Lodha Amara, Signet A, Kolshet Rd, Thane West, MH 400607</div>
+                    </div>
+                    <div class="contact-item reveal">
+                        <div class="contact-icon">📞</div>
+                        <div><strong>Phone</strong><br><a href="tel:+919555364454">+91 95553 64454</a></div>
+                    </div>
                 </div>
-                <div class="map-box reveal">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3766.790325492211!2d72.9841!3d19.2372!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDE0JzEzLjkiTiA3MsKwNTknMDIuOCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                </div>
+            </div>
+            <div class="map-container reveal">
+                <iframe src="https://maps.app.goo.gl/PmgumU7aksoGxpHt8"></iframe>
             </div>
         </div>
     </section>
 
-    <footer>
+    <footer style="text-align:center">
         <div class="container">
-            <p>&copy; 2026 Tanveer Salon. All Rights Reserved.</p>
+            <p>© 2026 Tanveer Salon · Shop No. 20, Lodha Amara, Thane</p>
         </div>
     </footer>
 
-    <div class="modal" id="imageModal">
-        <span class="modal-close" id="closeModal">&times;</span>
-        <img src="" class="modal-img" id="fullImg">
-    </div>
-
     <script>
-        // Navbar scroll effect
-        window.onscroll = function() {
-            const nav = document.getElementById('navbar');
-            if (window.pageYOffset > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        };
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.scrollY > 40); });
 
-        // Reveal on scroll
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); mobileMenu.classList.toggle('open'); });
+
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
+            entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+        }, {threshold: 0.1});
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
         // Gallery Modal
-        const modal = document.getElementById('imageModal');
-        const fullImg = document.getElementById('fullImg');
-        const galleryItems = document.querySelectorAll('.gallery-item img');
+        const modal = document.getElementById('galleryModal');
+        const modalImg = document.getElementById('modalImg');
+        const items = document.querySelectorAll('.gallery-item');
+        const images = Array.from(items).map(i => i.querySelector('img').src);
+        let cur = 0;
 
-        galleryItems.forEach(img => {
-            img.onclick = function() {
-                modal.classList.add('open');
-                fullImg.src = this.src;
-            };
+        items.forEach((item, i) => {
+            item.onclick = () => { cur = i; modalImg.src = images[cur]; modal.classList.add('open'); };
         });
-
-        document.getElementById('closeModal').onclick = () => modal.classList.remove('open');
-        modal.onclick = (e) => { if(e.target === modal) modal.classList.remove('open'); };
+        document.getElementById('modalClose').onclick = () => modal.classList.remove('open');
+        document.getElementById('nextBtn').onclick = (e) => { e.stopPropagation(); cur = (cur + 1) % images.length; modalImg.src = images[cur]; };
+        document.getElementById('prevBtn').onclick = (e) => { e.stopPropagation(); cur = (cur - 1 + images.length) % images.length; modalImg.src = images[cur]; };
+        modal.onclick = () => modal.classList.remove('open');
     </script>
 </body>
 </html>
